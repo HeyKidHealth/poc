@@ -1,3 +1,5 @@
+CREATE INDEX ON :Specialty(name);
+
 //CREATE FEW SPELCIALTIES TO ALLOW PoC
 CREATE(:Specialty {name: 'Pediatrician', inPortuguese: 'Pediatra'}),
 (:Specialty {name: 'Otolaryngologist', inPortuguese: 'Otorrinolaringologista'}),

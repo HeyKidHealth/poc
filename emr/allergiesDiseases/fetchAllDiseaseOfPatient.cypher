@@ -1,5 +1,5 @@
-MATCH (one:Patient)-[:OWNS_EMR]->(emr:EMR)-[rel]->(diag:Diagnostic:Disease)
+MATCH (one:Patient)-[:OWNS_EMR]->(emr:EMR)-[rel]->(diag:Diagnostic)-[DIAGNOSED_IN]-(day:Day)
 WHERE one.name = 'Renato Spakauskas'
 //AND type(rel) = 'CONFIRMED'
-RETURN one.name, diag.name, type(rel) AS relation, labels(diag)
-ORDER BY relation, diag.name
+RETURN one.name, diag.diagnosticOf, type(rel) AS relation, day.uuid AS diagnosedDate
+ORDER BY relation, diag.diagnosticOf

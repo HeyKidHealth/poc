@@ -1,3 +1,5 @@
+CREATE INDEX ON :Intolerance(name);
+
 //CREATE FEW INTOLERANCES  TO ALLOW PoC
 CREATE
 (:Intolerance {name: 'Cream', inPortuguese: 'Creme', type: 'Other'}),

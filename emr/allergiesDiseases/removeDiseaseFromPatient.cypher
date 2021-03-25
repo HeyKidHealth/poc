@@ -1,31 +1,10 @@
-//DELETE A CONFIRMED DIAGNOSTIC OF A DISEASE FROM THE EMR OF THE PATIENT
-MATCH (emr:EMR)-[rel:CONFIRMED]->(disease:Disease)
-WHERE emr.id = '!12345FFF'
-AND disease.name = 'Cancer'
-DELETE rel
-WITH disease
-REMOVE disease:Diagnostic;
-
-//REMOVE A CONFIRMED DIAGNOSTIC OF A DISEASE FROM THE EMR OF THE PATIENT
-MATCH (emr:EMR)-[rel:CONFIRMED]->(disease:Disease)
-WHERE emr.id = '!12345FFF'
-AND disease.name = 'Hypertension'
-DELETE rel
-WITH disease
-REMOVE disease:Diagnostic;
-
-//REMOVE AN IN ANALYSIS DIAGNOSTIC OF A DISEASE FROM THE EMR OF THE PATIENT
-MATCH (emr:EMR)-[rel:IN_ANALYSIS]->(disease:Disease)
-WHERE emr.id = '!12345FFF'
-AND disease.name = 'Obesity'
-DELETE rel
-WITH disease
-REMOVE disease:Diagnostic;
-
-//REMOVE A REFUSED DIAGNOSTIC OF A DISEASE FROM THE EMR OF THE PATIENT
-MATCH (emr:EMR)-[rel:REFUSED]->(disease:Disease)
-WHERE emr.id = '!12345FFF'
-AND disease.name = 'Diabetes'
-DELETE rel
-WITH disease
-REMOVE disease:Diagnostic;
+//LINK THE CREATED NODE TO A SPECIFIC DIAGNOSED DATE
+MATCH (diag:Diagnostic)-[relDay:DIAGNOSED_IN]->(day:Day)
+//LINK THE DIAGNOSTIC NODE TO THE EMR AND TO THE DISEASE NODES
+MATCH (emr:EMR)-[relEMR:IN_ANALYSIS]->(diag)-[relDisease:DIAGNOSTIC_OF]->(disease:Disease)
+WHERE day.uuid = '24/3/2019'
+  AND disease.name = 'Hypertension'
+  AND emr.id = '!12345FFF'  
+  AND diag.diagnosticOf = 'Hypertension'
+RETURN relDay, relDisease, relEMR, diag
+//RETURN day, disease, emr, diag

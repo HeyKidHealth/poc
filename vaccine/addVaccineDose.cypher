@@ -1,3 +1,5 @@
+CREATE INDEX ON :Vaccine(vaccine, name);
+
 //DELETE ALL DOSES FOR ALL VACCINES
 MATCH (d:VaccineDose) DETACH DELETE d 
 

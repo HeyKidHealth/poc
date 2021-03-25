@@ -1,3 +1,6 @@
+//DELETE ALL COMPLICATIONS
+MATCH (compl:Complication) DETACH DELETE compl;
+
 //CREATE FEW COMPLICATIONS TO ALLOW PoC
 CREATE
 (:Complication {name: 'Cry', inPortuguese: 'Choro'}),

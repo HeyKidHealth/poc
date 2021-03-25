@@ -1,3 +1,5 @@
+CREATE INDEX ON :Allergy(name);
+
 //CREATE FEW ALLERGIES TO ALLOW PoC
 CREATE
 (:Allergy {name: 'Cream', inPortuguese: 'Creme', type: 'Other'}),

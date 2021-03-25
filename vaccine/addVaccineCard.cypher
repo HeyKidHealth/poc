@@ -1,3 +1,5 @@
+CREATE INDEX ON :VaccineCard(id);
+
 //DELETE ALL VACCINES CARDS
 MATCH (vc:VaccineCard) DETACH DELETE vc;
 

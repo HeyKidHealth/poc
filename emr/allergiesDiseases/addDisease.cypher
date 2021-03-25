@@ -1,3 +1,5 @@
+CREATE INDEX ON :Disease(name);
+
 //CREATE FEW DISEASES TO ALLOW PoC
 CREATE
 (:Disease {name: 'Headache', inPortuguese: 'Cefaleia'}),
