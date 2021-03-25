@@ -16,3 +16,4 @@ MATCH (v:Vaccine), (d:VaccineDose) WHERE v.name = 'BCG' AND d.vaccine = 'BCG' ME
 MATCH (v:Vaccine), (d:VaccineDose) WHERE v.name = 'Varicela' AND d.vaccine = 'Varicela' MERGE (d)-[:IS_DOSE_OF]->(v);
 MATCH (v:Vaccine), (d:VaccineDose) WHERE v.name = 'HPV4' AND d.vaccine = 'HPV4' MERGE (d)-[:IS_DOSE_OF]->(v);
 MATCH (v:Vaccine), (d:VaccineDose) WHERE v.name = 'DTPa' AND d.vaccine = 'DTPa' MERGE (d)-[:IS_DOSE_OF]->(v);
+;

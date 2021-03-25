@@ -1,8 +1,3 @@
-CREATE INDEX ON :Vaccine(name);
-
-//DELETE ALL DOSES FOR ALL VACCINES
-MATCH (v:Vaccine) DETACH DELETE v;
-
 //CREATE ALL VACCINES UNDER AGE OF 14 TO ALLOW PoC
 CREATE
 (:Vaccine {name: 'BCG ID', description: 'Tuberculose', dosage: 'Unique', classification: 'Mandatory'}),
@@ -22,3 +17,7 @@ CREATE
 (:Vaccine {name: 'Varicela', description: 'Varicela (catapora)', dosage: 'Dose', classification: 'Mandatory'}),
 (:Vaccine {name: 'HPV4', description: 'HPV', dosage: 'Dose', classification: 'Mandatory'}),
 (:Vaccine {name: 'DTPa', description: 'Tríplice bacteriana (difteria, tétano e coqueluche)', dosage: 'Dose', classification: 'Mandatory'})
+;
+
+//DELETE ALL DOSES FOR ALL VACCINES
+MATCH (v:Vaccine) DETACH DELETE v;

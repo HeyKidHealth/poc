@@ -1,8 +1,3 @@
-CREATE INDEX ON :Vaccine(vaccine, name);
-
-//DELETE ALL DOSES FOR ALL VACCINES
-MATCH (d:VaccineDose) DETACH DELETE d 
-
 //CREATE ALL DOSES FOR ALL VACCINES UNDER AGE OF 14 TO ALLOW PoC
 CREATE
 (:VaccineDose {name: 'Unique', vaccine: 'BCG ID', fromAgeInMonths: toInteger(1), toAgeInMonths:toInteger(1), classification: 'Mandatory'}),
@@ -59,3 +54,7 @@ CREATE
 (:VaccineDose {name: '3rd dose', vaccine: 'DTPa', fromAgeInMonths: toInteger(6), toAgeInMonths:toInteger(6), classification: 'Mandatory'}),
 (:VaccineDose {name: 'Booster', vaccine: 'DTPa', fromAgeInMonths: toInteger(15), toAgeInMonths:toInteger(18), classification: 'Mandatory'}),
 (:VaccineDose {name: 'Booster', vaccine: 'DTPa', fromAgeInMonths: toInteger(48), toAgeInMonths:toInteger(60), classification: 'Mandatory'})
+;
+
+//DELETE ALL DOSES FOR ALL VACCINES
+MATCH (d:VaccineDose) DETACH DELETE d ;
