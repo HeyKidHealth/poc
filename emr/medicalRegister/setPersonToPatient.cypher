@@ -4,6 +4,6 @@ CREATE CONSTRAINT patientName IF NOT EXISTS ON (one:Patient) ASSERT one.name IS 
 
 //SET PERSON TO PATIENT
 MATCH (one:Person)
-WHERE one.uuid = '44b51152-2adf-48ef-9b93-89d19a979136-USER'
+WHERE one.uuid = '8c443244-aebb-421e-b273-172f66936c96-USER'
 SET one:Patient
 RETURN one.uuid, one.name, labels(one) as label 
