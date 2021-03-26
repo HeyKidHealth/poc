@@ -1,15 +1,10 @@
-//DELETE A GENERIC DIAGNOSTIC OF A DISEASE FROM THE EMR OF THE PATIENT
-MATCH (emr:EMR)-[rel]->(disease:Disease:Diagnostic)
-WHERE emr.uuid = 'b22c2c15-c5a2-4903-be5f-5da022ac03f0-EMR'
-AND disease.name = 'Obesity'
-DELETE rel
-WITH disease
-REMOVE disease:Diagnostic;
-
-//ADD AN IN ANALYSIS DIAGNOSTIC OF A DISEASE TO THE EMR OF THE PATIENT
-MATCH (emr:EMR), (disease:Disease)
-WHERE emr.uuid = 'b22c2c15-c5a2-4903-be5f-5da022ac03f0-EMR'
-AND disease.name = 'Obesity'
-MERGE (emr)-[:IN_ANALYSIS]->(disease)
-WITH disease
-SET disease:Diagnostic;
+//UNLINK PREVIOUS RELATIONSHIP FROM THE EMR
+MATCH (emr:EMR)-[relDiag]->(diag:Diagnostic)-[:DIAGNOSTIC_OF]->(disease:Disease),
+(diag:Diagnostic)-[:DIAGNOSED_IN]->(day:Day)
+WHERE diag.uuid = '36943e83-1ce5-435b-a19a-0414b913042b'
+DELETE relDiag
+//LINK THE NEW IN ANALYSIS RELATIONSHIP TO THE EMR 
+WITH *
+MERGE (emr)-[:IN_ANALYSIS]->(diag)
+//RETURN diag, emr, day, disease
+RETURN diag.uuid, diag.diagnosticOf

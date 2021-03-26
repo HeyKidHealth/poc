@@ -1,5 +1,7 @@
 //CREATE INDEX & CONSTRAINT
 CREATE INDEX personUuidIDX IF NOT EXISTS FOR (one:Person) ON (one.uuid);
+CREATE INDEX emrUuidIDX IF NOT EXISTS FOR (emr:EMR) ON (emr.uuid);
+CREATE INDEX vaccineCardUuidIDX IF NOT EXISTS FOR (vaccineCar:VaccineCard) ON (vaccineCar.uuid);
 CREATE CONSTRAINT personName IF NOT EXISTS ON (one:Person) ASSERT one.name IS UNIQUE;
 
 //CREATE A NEW PERSON

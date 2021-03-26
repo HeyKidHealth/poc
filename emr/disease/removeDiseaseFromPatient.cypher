@@ -1,8 +1,7 @@
-//FETCH THE DIAGNOSTIC AND RELATIONSHIPS
-MATCH (diag:Diagnostic)-[relDay:DIAGNOSED_IN]->(day:Day)
-MATCH (emr:EMR)-[relEMR]->(diag)-[relDisease:DIAGNOSTIC_OF]->(disease:Disease)
-WHERE diag.uuid = '7f6b1f6f-d1f4-463e-8964-b0e88cdc85d1'
-//REMOVE ALL RELATIONSHIPS AND THE DIAGNOSTIC NODE
-DELETE relDay, relDisease, relEMR, diag
-//RETURN relDay, relDisease, relEMR, diag
-;
+//UNLINK PREVIOUS RELATIONSHIP FROM THE EMR AND DELETE THE DIAGNOSTIC
+MATCH (emr:EMR)-[relEMR]->(diag:Diagnostic)-[relDisease:DIAGNOSTIC_OF]->(disease:Disease),
+(diag:Diagnostic)-[relDay:DIAGNOSED_IN]->(day:Day)
+WHERE diag.uuid = '36943e83-1ce5-435b-a19a-0414b913042b'
+DELETE relEMR, relDay, relDisease, diag
+
+//RETURN type(relEMR), type(relDay), type(relDisease)

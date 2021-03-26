@@ -66,7 +66,6 @@ CREATE
 (:Disease {uuid: apoc.create.uuid(), name: 'Crohn Disease', inPortuguese: 'Doença de Crohn'}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Irritable Bowel Syndrome', inPortuguese: 'Síndrome do Intestino Irritável'}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Ulcerative Colitis', inPortuguese: 'Retocolite Ulcerativa'}),
-(:Disease {uuid: apoc.create.uuid(), name: 'Constipation', inPortuguese: 'Obstipação'}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Arthrosis', inPortuguese: 'Artrose'}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Flat Feet', inPortuguese: 'Pé Chato'}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Tendonitis', inPortuguese: 'Tendinite'}),
