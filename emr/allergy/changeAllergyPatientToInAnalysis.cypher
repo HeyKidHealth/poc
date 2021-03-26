@@ -1,15 +1,10 @@
-//DELETE A GENERIC DIAGNOSTIC OF AN ALLERGY FROM THE EMR OF THE PATIENT
-MATCH (emr:EMR)-[rel]->(allerg:Allergy:Diagnostic)
-WHERE emr.uuid = 'f2c98bcd-00a7-49fb-b7e9-844d9bb69267-EMR'
-AND allerg.name = 'Chocolate'
-DELETE rel
-WITH allerg
-REMOVE allerg:Diagnostic;
-
-//ADD AN IN ANALYSIS DIAGNOSTIC OF AN ALLERGY TO THE EMR OF THE PATIENT
-MATCH (emr:EMR), (allerg:Allergy)
-WHERE emr.uuid = 'f2c98bcd-00a7-49fb-b7e9-844d9bb69267-EMR'
-AND allerg.name = 'Chocolate'
-MERGE (emr)-[:IN_ANALYSIS]->(allerg)
-WITH allerg
-SET allerg:Diagnostic;
+//UNLINK PREVIOUS RELATIONSHIP FROM THE EMR
+MATCH (emr:EMR)-[relDiag]->(diag:Diagnostic)-[:DIAGNOSTIC_OF]->(allerg:Allergy),
+(diag:Diagnostic)-[:DIAGNOSED_IN]->(day:Day)
+WHERE diag.uuid = 'd4ab5903-6f1f-4d7b-94b5-29368c0e3118'
+DELETE relDiag
+//LINK THE NEW CONFIRMED RELATIONSHIP TO THE EMR 
+WITH *
+MERGE (emr)-[:IN_ANALYSIS]->(diag)
+//RETURN diag, emr, day, allerg
+RETURN diag.uuid, diag.diagnosticOf

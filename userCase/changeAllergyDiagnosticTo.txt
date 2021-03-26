@@ -1,0 +1,7 @@
+createAllergyDiagnostic must be executed and Diagnostic created
+
+1. addAllergyToPatient
+2
+  2.1 changeAllergyPatientToConfirmed
+  2.2 changeAllergyPatientToInAnalysis
+  2.3 changeAllergyPatientToRefused
