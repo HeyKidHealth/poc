@@ -1,15 +1,10 @@
-//DELETE A GENERIC DIAGNOSTIC OF AN INTOLERANCE FROM THE EMR OF THE PATIENT
-MATCH (emr:EMR)-[rel]->(intol:Intolerance:Diagnostic)
-WHERE emr.uuid = 'f2c98bcd-00a7-49fb-b7e9-844d9bb69267-EMR'
-AND intol.name = 'Shrimp'
-DELETE rel
-WITH intol
-REMOVE intol:Diagnostic;
-
-//ADD AN IN ANALYSIS DIAGNOSTIC OF AN INTOLERANCE TO THE EMR OF THE PATIENT
-MATCH (emr:EMR), (intol:Intolerance)
-WHERE emr.uuid = 'f2c98bcd-00a7-49fb-b7e9-844d9bb69267-EMR'
-AND intol.name = 'Shrimp'
-MERGE (emr)-[:IN_ANALYSIS]->(intol)
-WITH intol
-SET intol:Diagnostic;
+//UNLINK PREVIOUS RELATIONSHIP FROM THE EMR
+MATCH (emr:EMR)-[relDiag]->(diag:Diagnostic)-[:DIAGNOSTIC_OF]->(intol:Intolerance),
+(diag:Diagnostic)-[:DIAGNOSED_IN]->(day:Day)
+WHERE diag.uuid = '518ae45b-e957-4256-9aa6-22ee55f1d9d6'
+DELETE relDiag
+//LINK THE NEW IN ANALYSIS RELATIONSHIP TO THE EMR 
+WITH *
+MERGE (emr)-[:IN_ANALYSIS]->(diag)
+//RETURN diag, emr, day, intol
+RETURN diag.uuid, diag.diagnosticOf

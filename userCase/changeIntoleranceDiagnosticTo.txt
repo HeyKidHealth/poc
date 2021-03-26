@@ -1,0 +1,7 @@
+createIntoleranceDiagnostic must be executed and Diagnostic created
+
+1. addIntoleranceToPatient
+2
+  2.1 changeIntolerancePatientToConfirmed
+  2.2 changeIntolerancePatientToInAnalysis
+  2.3 changeIntolerancePatientToRefused

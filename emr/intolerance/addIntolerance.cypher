@@ -37,7 +37,7 @@ CREATE
 (:Intolerance {uuid: apoc.create.uuid(), name: 'Pollen', inPortuguese: 'Pólen', type: 'Other'}),
 (:Intolerance {uuid: apoc.create.uuid(), name: 'Smoke', inPortuguese: 'Fumaça', type: 'Other'}),
 (:Intolerance {uuid: apoc.create.uuid(), name: 'Pollution', inPortuguese: 'Poluição', type: 'Other'}),
-(:Intolerance {uuid: apoc.create.uuid(), name: 'Milk', inPortuguese: 'Leite', type: 'Food'}),
+(:Intolerance {uuid: apoc.create.uuid(), name: 'Lactose', inPortuguese: 'Lactose', type: 'Food'}),
 (:Intolerance {uuid: apoc.create.uuid(), name: 'Egg', inPortuguese: 'Ovo', type: 'Food'}),
 (:Intolerance {uuid: apoc.create.uuid(), name: 'Wheat', inPortuguese: 'Trigo', type: 'Food'}),
 (:Intolerance {uuid: apoc.create.uuid(), name: 'Peanut', inPortuguese: 'Amendoim', type: 'Food'}),
