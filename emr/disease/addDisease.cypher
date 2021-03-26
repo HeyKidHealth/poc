@@ -82,5 +82,21 @@ CREATE
 (:Disease {uuid: apoc.create.uuid(), name: 'Allergic Urticaria', inPortuguese: 'Urticária Alérgica'}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Angioedema', inPortuguese: 'Angioedema'}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Contact Dermatitis', inPortuguese: 'Dermatite de Contato'}),
-(:Disease {uuid: apoc.create.uuid(), name: 'Atopic Dermatitis', inPortuguese: 'Dermatite Atópica'})
+(:Disease {uuid: apoc.create.uuid(), name: 'Atopic Dermatitis', inPortuguese: 'Dermatite Atópica'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Cold', inPortuguese: 'Resfriado'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Influenza', inPortuguese: 'Gripe'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Mumps', inPortuguese: 'Caxumba'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Measles', inPortuguese: 'Sarampo'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Rubella', inPortuguese: 'Rubéola'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Meningitis', inPortuguese: 'Meningite'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Chickenpox', inPortuguese: 'Catapora'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Strep Throat', inPortuguese: 'Inflamação Garganta'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Stomach Flu', inPortuguese: 'Febre Estomacal'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Sore Throat', inPortuguese: 'Dor de Garganta'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Chagas Disease', inPortuguese: 'Doença de Chagas'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Dengue Fever', inPortuguese: 'Dengue'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Zika Fever', inPortuguese: 'Zika'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Leptospirosis', inPortuguese: 'Leptospirose'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Yellow Fever', inPortuguese: 'Febre Amarela'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Chikungunya ', inPortuguese: 'Chikungunya '})
 ;
