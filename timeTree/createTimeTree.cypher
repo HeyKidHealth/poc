@@ -90,9 +90,10 @@ WITH collect(year) AS years UNWIND years AS y
 	WITH y
 	MATCH (y)-[:CHILD]->(month:Month)
 	WITH y, collect(month) AS months UNWIND months AS m
-		SET m.uuid = m.value + '/' + y.value
+		SET m.uuid = right('00' + toString(m.value), 2) + '/' + y.value
 		WITH y, m
 		MATCH (m)-[:CHILD]->(day:Day)
 		WITH y, m, collect(day) AS days UNWIND days AS d
-			SET d.uuid = d.value + '/' + m.value + '/' + y.value
+			SET d.uuid = right('00' + toString(d.value), 2) + '/' + right('00' + toString(m.value), 2) + '/' + y.value,
+        d.date = date(apoc.date.convertFormat(d.uuid, 'dd/MM/YYYY', 'YYYY-MM-dd'))
 ;
