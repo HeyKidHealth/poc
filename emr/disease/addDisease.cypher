@@ -101,5 +101,7 @@ CREATE
 (:Disease {uuid: apoc.create.uuid(), name: 'Chikungunya ', inPortuguese: 'Chikungunya '}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Fibromyalgia', inPortuguese: 'Fibromialgia'}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Inguinal Hernia', inPortuguese: 'Hérnia Inguinal'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Muscle Sprain', inPortuguese: 'Distensão Muscular'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Ligament Rupture', inPortuguese: 'Rompimento de Ligamento'})
 ;
 
