@@ -98,5 +98,8 @@ CREATE
 (:Disease {uuid: apoc.create.uuid(), name: 'Zika Fever', inPortuguese: 'Zika'}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Leptospirosis', inPortuguese: 'Leptospirose'}),
 (:Disease {uuid: apoc.create.uuid(), name: 'Yellow Fever', inPortuguese: 'Febre Amarela'}),
-(:Disease {uuid: apoc.create.uuid(), name: 'Chikungunya ', inPortuguese: 'Chikungunya '})
+(:Disease {uuid: apoc.create.uuid(), name: 'Chikungunya ', inPortuguese: 'Chikungunya '}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Fibromyalgia', inPortuguese: 'Fibromialgia'}),
+(:Disease {uuid: apoc.create.uuid(), name: 'Inguinal Hernia', inPortuguese: 'Hérnia Inguinal'}),
 ;
+
