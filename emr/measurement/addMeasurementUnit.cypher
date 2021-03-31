@@ -17,6 +17,3 @@ CREATE
 (:MeasurementUnit {uuid: apoc.create.uuid(), name: 'Gram', inPortuguese: 'Grama', acronym : 'g'}),
 (:MeasurementUnit {uuid: apoc.create.uuid(), name: 'None', inPortuguese: 'Nenhuma', acronym : ''})
 ;
-
-DROP INDEX measUnitInPortugueseIDX IF EXISTS;
-DROP INDEX measUnitName IF EXISTS;
