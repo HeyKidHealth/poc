@@ -1,18 +1,19 @@
 //CREATE INDEX 
-CREATE INDEX mySympUuidIDX IF NOT EXISTS FOR (mySymp:MySymptom) ON (mySymp.uuid);
+CREATE INDEX occurUuidIDX IF NOT EXISTS FOR (occur:Occurrence) ON (occur.uuid);
 
-//ADD AN IN ANALYSIS DIAGNOSTIC NODE WITH THE NAME OF THE SYMPTOM
-MERGE (mySymp:MySymptom {symptomOf: 'Fever'})
-ON CREATE SET mySymp.uuid = apoc.create.uuid(),
-  mySymp.isAbout = 'Symptom'
-ON MATCH SET mySymp.isAbout = 'Symptom'
-WITH mySymp
+//ADD AN OCCURRENCE NODE WITH THE NAME OF THE SYMPTOM
+MERGE (occur:Occurrence {symptomOf: 'Stress'})
+ON CREATE SET occur.uuid = apoc.create.uuid(),
+  occur.isAbout = 'Symptom',
+  occur.symptomValue = 'Moderate'
+ON MATCH SET occur.symptomValue = 'Moderate'
+WITH occur
 MATCH (symptom:Symptom), (emr:EMR), (day:Day)
-WHERE day.uuid = '8/9/2004'
-  AND symptom.uuid = '61447138-05e7-413d-a422-3e4b7b99d886'
+WHERE day.uuid = '13/02/2021'
+  AND symptom.uuid = '5011a716-2cb8-4f2b-81af-8d11042912bc'
   AND emr.uuid = 'f2c98bcd-00a7-49fb-b7e9-844d9bb69267-EMR'  
-//LINK THE CREATED NODE TO WHEN IT HAS STARTED
-MERGE (mySymp)-[:STARTED]->(day)
-//LINK THE DIAGNOSTIC NODE TO THE EMR AND TO THE SYMPTOMS NODES
-MERGE (emr)-[:HAS_SYMPTOM]->(mySymp)-[:SYMPTOM_OF]->(symptom)
-RETURN mySymp.uuid, mySymp.symptomOf
+//LINK THE CREATED NODE TO A SPECIFIC OCCURRENCE DATE
+MERGE (occur)-[:STARTED]->(day)
+//LINK THE OCCURRENCE NODE TO THE EMR AND TO THE SYMPTOM NODES
+MERGE (emr)-[:HAS_OCCURRENCE]->(occur)-[:SYMPTOM_OF]->(symptom)
+RETURN occur.uuid, occur.symptomOf, occur.symptomValue

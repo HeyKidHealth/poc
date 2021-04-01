@@ -1,9 +1,9 @@
-//DELETE MY SYMPTOM AND ITS RELATIONSHIPS
-MATCH (emr:EMR)-[relEMR:HAS_SYMPTOM]->(mySymp:MySymptom)-[relSymptom:SYMPTOM_OF]->(symptom:Symptom),
-(mySymp:MySymptom)-[relStartDay:STARTED]->(day:Day)
+//UNLINK PREVIOUS RELATIONSHIP FROM THE EMR AND DELETE THE OCCURRENCE
+MATCH (emr:EMR)-[relEMR]->(occur:Occurrence)-[relSymptom:SYMPTOM_OF]->(symptom:Symptom),
+(occur)-[relStartDay:STARTED]->(:Day)
 //MAYBE THE SYMPTOM IS NO LONGER ACTIVE, DELETE IT ANYWAY
-OPTIONAL MATCH (mySymp:MySymptom)-[relEndDay:ENDED]-(endDay:Day)
-WHERE mySymp.uuid = '5933a885-d90d-41e5-8dfb-622c4078ef5c'
-DELETE relEMR, relSymptom, relStartDay, relEndDay, mySymp
+OPTIONAL MATCH (occur)-[relEndDay:ENDED]-(:Day)
+WHERE occur.uuid = '98d03dcc-c932-465b-9e92-96ad5d5ce816'
+DELETE relEMR, relSymptom, relStartDay, relEndDay, occur
 
-//RETURN type(relEMR), type(relSymptom), type(relStartDay), type(relEndDay), mySymp
+//RETURN type(relEMR), type(relStartDay), type(relEndDay), type(relSymptom)

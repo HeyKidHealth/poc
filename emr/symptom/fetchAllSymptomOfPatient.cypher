@@ -1,7 +1,6 @@
-MATCH (one:Patient)-[:OWNS_EMR]->(emr:EMR)-->(mySymp:MySymptom)-[:STARTED]->(startDay:Day)
-OPTIONAL MATCH (mySymp:MySymptom)-[:ENDED]->(endDay:Day)
-WHERE emr.uuid = 'f2c98bcd-00a7-49fb-b7e9-844d9bb69267-EMR'
-//  AND EXISTS((mySymp)-[:SYMPTOM_OF]->(:Symptom))  
-RETURN one.uuid, one.name, mySymp.uuid, mySymp.symptomOf, startDay.uuid AS startedIn, endDay.uuid AS endedIn, 
-  EXISTS((mySymp)-[:ENDED]->(endDay)) AS isFinished
-ORDER BY startedIn DESC, mySymp.symptomOf
+MATCH (one:Patient)-[:OWNS_EMR]->(emr:EMR)-[relOccur]->(occur:Occurrence)-[:STARTED]-(startDay:Day)
+OPTIONAL MATCH (occur:Occurrence)-[:ENDED]->(endDay:Day)
+WHERE emr.uuid = 'f2c98bcd-00a7-49fb-b7e9-844d9bb69267-EMR'  
+RETURN one.uuid, one.name, occur.uuid, occur.symptomOf, startDay.uuid AS startedIn, endDay.uuid AS endedIn, 
+  EXISTS((occur)-[:ENDED]->(endDay)) AS isFinished, occur.durationInDays
+ORDER BY startedIn DESC, occur.symptomOf
