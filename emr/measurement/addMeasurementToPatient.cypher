@@ -1,7 +1,7 @@
 //CREATE INDEX 
 CREATE INDEX occurUuidIDX IF NOT EXISTS FOR (occur:Occurrence) ON (occur.uuid);
 
-//ADD AN IN ANALYSIS OCCURRENCE NODE WITH THE NAME OF THE MEASUREMENT
+//ADD AN OCCURRENCE NODE WITH THE NAME OF THE MEASUREMENT
 MERGE (occur:Occurrence {measurementOf: 'Height'})
 ON CREATE SET occur.uuid = apoc.create.uuid(),
   occur.isAbout = 'Measurement',
