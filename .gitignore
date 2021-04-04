@@ -1,5 +1,10 @@
 ~$poc*
+
+## scrap file
 poc.txt
+*.txt
+
 .git-old
 
+## file which I don't know if would be useful
 setDuration.cypher
