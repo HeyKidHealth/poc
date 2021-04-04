@@ -26,5 +26,5 @@ WITH my
 MATCH (overdueSinceDay:Day), (overdueUntilDay:Day)
 WHERE overdueSinceDay.uuid = my.fromExpectedDate
   AND overdueUntilDay.uuid = my.toExpectedDate
-MERGE (overdueSinceDay)<-[:OVERDUE_SINCE]-(my)-[:OVERDUE_UNTIL]-(overdueUntilDay)
+MERGE (overdueSinceDay)<-[:OVERDUE_SINCE]-(my)-[:OVERDUE_UNTIL]->(overdueUntilDay)
 RETURN my.uuid, my.vaccineName, my.vaccineDose, overdueUntilDay.uuid AS overdueUntil, overdueSinceDay.uuid AS overdueSince
