@@ -3,6 +3,7 @@
 ## scrap file
 poc.txt
 *.txt
+scrap.cypher
 
 .git-old
 
