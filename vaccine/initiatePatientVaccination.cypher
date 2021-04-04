@@ -1,3 +1,6 @@
+//CREATE INDEX 
+CREATE INDEX myDoseUuidIDX IF NOT EXISTS FOR (myDose:MyDose) ON (myDose.uuid);
+
 //IDENTIFY PATIENT TO GET DOB
 MATCH (emr:EMR)<-[:OWNS_EMR]-(one:Patient)-[:BIRTH]->(dob:Day), 
 (one)-[:OWNS_CARD]->(card:VaccineCard),

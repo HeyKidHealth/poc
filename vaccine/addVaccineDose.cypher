@@ -55,6 +55,3 @@ CREATE
 (:VaccineDose {name: 'Booster', vaccineName: 'DTPa', fromAgeInMonths: toInteger(15), toAgeInMonths:toInteger(18), classification: 'Mandatory'}),
 (:VaccineDose {name: 'Booster', vaccineName: 'DTPa', fromAgeInMonths: toInteger(48), toAgeInMonths:toInteger(60), classification: 'Mandatory'})
 ;
-
-//DELETE ALL DOSES FOR ALL VACCINES
-MATCH (d:VaccineDose) DETACH DELETE d ;

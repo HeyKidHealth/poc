@@ -18,6 +18,3 @@ CREATE
 (:Vaccine {name: 'HPV4', description: 'HPV', dosage: 'Dose', classification: 'Mandatory'}),
 (:Vaccine {name: 'DTPa', description: 'Tríplice bacteriana (difteria, tétano e coqueluche)', dosage: 'Dose', classification: 'Mandatory'})
 ;
-
-//DELETE ALL DOSES FOR ALL VACCINES
-MATCH (v:Vaccine) DETACH DELETE v;
