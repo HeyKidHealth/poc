@@ -1,3 +1,0 @@
-createPatient must be executed and Patient defined
-
-1. addDiseaseToPatient

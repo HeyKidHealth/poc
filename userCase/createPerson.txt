@@ -1,5 +1,0 @@
-1. addPerson
-2. addEMRCard
-3. addEMRCardToPatient
-4. addVaccineCard
-5. addVaccineCardToPatient

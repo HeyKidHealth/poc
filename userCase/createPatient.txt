@@ -1,4 +1,0 @@
-createPerson must be executed and Person created
-
-1. setPersonToPatient
-2. initiatePatientVaccination

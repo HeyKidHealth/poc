@@ -1,7 +1,0 @@
-createDiseaseDiagnostic must be executed and Diagnostic created
-
-1. addDiseaseToPatient
-2
-  2.1 changeDiseasePatientToConfirmed
-  2.2 changeDiseasePatientToInAnalysis
-  2.3 changeDiseasePatientToRefused
