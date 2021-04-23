@@ -3,6 +3,8 @@ package domain
 import (
 	"errors"
 	"time"
+
+	"github.com/heykidhealth/poc-emr/framework/utils"
 )
 
 type Person struct {
@@ -37,25 +39,37 @@ const (
 	OTHER  = "other"
 )
 
+const (
+	ERROR_NAME_EMPTY      string = "Name is empty"
+	ERROR_LAST_NAME_EMPTY string = "Last name is empty"
+	ERROR_EMAIL_EMPTY     string = "e-Mail is empty"
+	ERROR_EMAIL_INVALID   string = "e-Mail has an invalid format"
+	ERROR_DOB_EMPTY       string = "Day of birth is empty"
+)
+
 func NewPerson() *Person {
 	return &Person{}
 }
 
 func (p *Person) IsValid() error {
 	if p.Name == "" {
-		return errors.New("Name is empty.")
+		return errors.New(ERROR_NAME_EMPTY)
 	}
 
 	if p.LastName == "" {
-		return errors.New("Last name is empty.")
+		return errors.New(ERROR_LAST_NAME_EMPTY)
 	}
 
 	if p.Email == "" {
-		return errors.New("e-Mail is empty.")
+		return errors.New(ERROR_EMAIL_EMPTY)
 	}
 
-	if !p.DOB.IsZero() {
-		return errors.New("Day of birth is empty.")
+	if !utils.IsEmailValid(p.Email) {
+		return errors.New(ERROR_EMAIL_INVALID)
+	}
+
+	if p.DOB.IsZero() {
+		return errors.New(ERROR_DOB_EMPTY)
 	}
 
 	//no errors found
