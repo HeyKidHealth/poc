@@ -15,5 +15,8 @@
     "titleBar.inactiveBackground": "#00acd799",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.remoteColor": "#00acd7"
+  "peacock.remoteColor": "#00acd7",
+  "cSpell.words": [
+    "Spakauskas"
+  ]
 }
