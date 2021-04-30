@@ -2,6 +2,7 @@ package domain
 
 import (
 	"errors"
+	"strings"
 	"time"
 
 	"github.com/heykidhealth/poc-emr/framework/utils"
@@ -40,28 +41,50 @@ const (
 )
 
 const (
-	ERROR_NAME_EMPTY      string = "Name is empty"
-	ERROR_LAST_NAME_EMPTY string = "Last name is empty"
-	ERROR_EMAIL_EMPTY     string = "e-Mail is empty"
-	ERROR_EMAIL_INVALID   string = "e-Mail has an invalid format"
-	ERROR_DOB_EMPTY       string = "Day of birth is empty"
+	ERROR_NAME_MISSING        string = "name is empty"
+	ERROR_LAST_NAME_TOO_SHORT string = "last name is too short"
+	ERROR_LAST_NAME_TOO_LONG  string = "last name is too long"
+	ERROR_LAST_NAME_MISSING   string = "last name is empty"
+	ERROR_NAME_TOO_SHORT      string = "name is too short"
+	ERROR_NAME_TOO_LONG       string = "name is too long"
+	ERROR_EMAIL_MISSING       string = "e-Mail is empty"
+	ERROR_EMAIL_INVALID       string = "e-Mail has an invalid format"
+	ERROR_DOB_MISSING         string = "day of birth is empty"
+	ERROR_DOB_INVALID         string = "day of birth is invalid"
 )
 
 func NewPerson() *Person {
 	return &Person{}
 }
 
+//check wheather person is filled with required information - name, lastname, email and day of birth
 func (p *Person) IsValid() error {
-	if p.Name == "" {
-		return errors.New(ERROR_NAME_EMPTY)
+	if strings.TrimSpace(p.Name) == "" {
+		return errors.New(ERROR_NAME_MISSING)
 	}
 
-	if p.LastName == "" {
-		return errors.New(ERROR_LAST_NAME_EMPTY)
+	if len(strings.TrimSpace(p.Name)) < 3 {
+		return errors.New(ERROR_NAME_TOO_SHORT)
 	}
 
-	if p.Email == "" {
-		return errors.New(ERROR_EMAIL_EMPTY)
+	if len(strings.TrimSpace(p.Name)) > 20 {
+		return errors.New(ERROR_NAME_TOO_LONG)
+	}
+
+	if strings.TrimSpace(p.LastName) == "" {
+		return errors.New(ERROR_LAST_NAME_MISSING)
+	}
+
+	if len(strings.TrimSpace(p.LastName)) < 3 {
+		return errors.New(ERROR_LAST_NAME_TOO_SHORT)
+	}
+
+	if len(strings.TrimSpace(p.LastName)) > 20 {
+		return errors.New(ERROR_LAST_NAME_TOO_LONG)
+	}
+
+	if strings.TrimSpace(p.Email) == "" {
+		return errors.New(ERROR_EMAIL_MISSING)
 	}
 
 	if !utils.IsEmailValid(p.Email) {
@@ -69,9 +92,16 @@ func (p *Person) IsValid() error {
 	}
 
 	if p.DOB.IsZero() {
-		return errors.New(ERROR_DOB_EMPTY)
+		return errors.New(ERROR_DOB_MISSING)
 	}
 
-	//no errors found
+	if utils.IsDateEqualToday(p.DOB) {
+		return errors.New(ERROR_DOB_INVALID)
+	}
+
+	if utils.IsDateGreaterToday(p.DOB) {
+		return errors.New(ERROR_DOB_INVALID)
+	}
+
 	return nil
 }
