@@ -1,4 +1,4 @@
-package domain
+package entity
 
 import (
 	"errors"
@@ -10,7 +10,6 @@ import (
 
 type Person struct {
 	ID          string    `json:"person_id"`
-	OrigenID    string    `json:"origen_person_id"`
 	Name        string    `json:"name"`
 	MiddleName  string    `json:"middle_name"`
 	LastName    string    `json:"last_name"`
@@ -19,25 +18,20 @@ type Person struct {
 	DOB         time.Time `json:"day_of_birth"`
 	AgeInMonths int16     `json:"age_in_months"`
 	Age         int16     `json:"age"`
+	Responsible string    `json:"responsible_id"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
-type PersonInterface interface {
-	GetPerson(id string) (*Person, error)
-	IsValid() error
-	AddFamilyMember(member *Person) (*Person, error)
-	UpdateFamilyMember(member *Person) (*Person, error)
-	RemoveFamilyMember(member *Person) (bool, error)
-	IsResponsableFor(person *Person) (bool, error)
-	IsMarriedTo(person *Person) (bool, error)
-	IsDivorcedFrom(person *Person) (bool, error)
-}
+const (
+	GENDER_MALE   string = "Male"
+	GENDER_FEMALE string = "Female"
+	GENDER_OTHER  string = "Other"
+)
 
 const (
-	MALE   = "male"
-	FEMALE = "female"
-	OTHER  = "other"
+	SELF    string = "self"
+	SOMEONE string = "someone"
 )
 
 const (
@@ -54,7 +48,12 @@ const (
 )
 
 func NewPerson() *Person {
-	return &Person{}
+	return &Person{
+		ID:          "",
+		Responsible: SOMEONE,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+	}
 }
 
 //check wheather person is filled with required information - name, lastname, email and day of birth
@@ -83,12 +82,14 @@ func (p *Person) IsValid() error {
 		return errors.New(ERROR_LAST_NAME_TOO_LONG)
 	}
 
-	if strings.TrimSpace(p.Email) == "" {
-		return errors.New(ERROR_EMAIL_MISSING)
-	}
+	if p.Responsible == SELF {
+		if strings.TrimSpace(p.Email) == "" {
+			return errors.New(ERROR_EMAIL_MISSING)
+		}
 
-	if !utils.IsEmailValid(p.Email) {
-		return errors.New(ERROR_EMAIL_INVALID)
+		if !utils.IsEmailValid(p.Email) {
+			return errors.New(ERROR_EMAIL_INVALID)
+		}
 	}
 
 	if p.DOB.IsZero() {
