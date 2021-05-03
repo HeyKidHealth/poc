@@ -1,16 +1,20 @@
 package service_test
 
 import (
-	"time"
 	"testing"
+	"time"
 
 	"github.com/heykidhealth/poc-emr/application/repository"
+	"github.com/heykidhealth/poc-emr/application/service"
 	"github.com/heykidhealth/poc-emr/domain/entity"
 	"github.com/stretchr/testify/require"
 )
 
 func Test_PersonRepositoryGetMember(t *testing.T) {
-	responsible := entity.NewPerson()
+	family := repository.NewFamilyMember()
+	personService :=  service.NewPersonService()
+	
+	responsible := family.Responsible
 	responsible.ID = "ID0000234"
 	responsible.Name = "Renato"
 	responsible.MiddleName = "Costa"
@@ -20,7 +24,7 @@ func Test_PersonRepositoryGetMember(t *testing.T) {
 	responsible.DOB = time.Date(1970, 11, 14, 0, 0, 0, 0, time.UTC)
 	responsible.Responsible = entity.SELF
 	
-	member := entity.NewPerson()
+	member := family.Member
 	member.ID = "ID0000234"
 	member.Name = "Marilia"
 	member.MiddleName = "Pinho"
@@ -30,13 +34,14 @@ func Test_PersonRepositoryGetMember(t *testing.T) {
 	member.DOB = time.Date(1992, 4, 22, 0, 0, 0, 0, time.UTC)
 	member.Responsible = responsible.ID
 	
-		family := repository.FamilyMember.NewMember()
-	family.NewMember = member
+	family.Member = member
 	family.Responsible = responsible
 	family.RelationType = repository.FAMILY_RELATION_FATHER
-	
-	m, err := service.AddFamilyMember(family)
+	m, err := personService.AddFamilyMember(family)
 	require.Nil(t, err)
-	
-	}
+	require.Equal(t, m.Responsible, member.Responsible)
+
+	family.RelationType = repository.FAMILY_RELATION_TBD
+	m, err = personService.AddFamilyMember(family)
+	require.EqualError(t, err, repository.ERROR_FAMILY_RELATIONSHIP_MISSING)
 }

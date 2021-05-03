@@ -19,6 +19,7 @@ const (
 	FAMILY_RELATION_SON      string = "Son"
 	FAMILY_RELATION_HUSBAND  string = "Husband"
 	FAMILY_RELATION_WIFE     string = "Wife"
+	FAMILY_RELATION_TBD      string = "To Be Defined"
 )
 
 const (
@@ -34,10 +35,14 @@ type PersonServiceInterface interface {
 
 type FamilyMember struct {
 	Responsible  *entity.Person
-	NewMember    *entity.Person
+	Member       *entity.Person
 	RelationType string
 }
 
 func NewFamilyMember() *FamilyMember {
-	return &FamilyMember{}
+	return &FamilyMember{
+		Responsible:  entity.NewPerson(),
+		Member:       entity.NewPerson(),
+		RelationType: FAMILY_RELATION_TBD,
+	}
 }
