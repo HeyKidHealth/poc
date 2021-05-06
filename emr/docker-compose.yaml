@@ -3,7 +3,7 @@ version: "3"
 services:
   app:
     build: .
-    container_name: emr
+    container_name: emr_app
     volumes:
       - .:/go/src/
     extra_hosts:

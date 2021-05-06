@@ -1,0 +1,11 @@
+https://www.infoq.com/br/articles/aws-vpc-cloudformation/
+
+aws cloudformation create-stack --stack-name HeyKid --template-body file://vpc/heykid-vpc.yaml
+aws cloudformation update-stack --stack-name HeyKid --template-body file://vpc/heykid-vpc.yaml
+aws cloudformation delete-stack --stack-name HeyKid
+
+## monitoring the process
+aws cloudformation wait stack-create-complete --stack-name HeyKid
+
+## check the new stack
+aws cloudformation describe-stacks

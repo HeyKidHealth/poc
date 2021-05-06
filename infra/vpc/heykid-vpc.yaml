@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: 2010-09-09
+# Este modelo do CloudFormation implanta uma VPC / Rede básica. 
+Resources:
+  # Primeiro, um VPC:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.1.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+      - Key: Name
+        # AWS::StackName será o nome dado à pilha do CloudFormation
+        Value:  !Join ['', [!Ref "AWS::StackName", "-VPC" ]]
+      - Key: Environment
+        Value: development
+
+  # Nosso VPC precisará de acesso à internet:     
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    DependsOn: VPC
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    # Observe como você não pode anexar um IGW a um VPC, a menos que ambos sejam criados:
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+      ##Tags:
+      ##- Key: Name
+      ##  Value: !Sub ${AWS::StackName}-IGW
+
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.1.10.0/24
+      AvailabilityZone: !Select [ 0, !GetAZs ]    # Obtenha o primeiro AZ na lista      
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}-Public-SNet
+      - Key: Environment
+        Value: development
+
+  PrivateSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.1.50.0/24
+      AvailabilityZone: !Select [ 0, !GetAZs ]    # Obtenha o primeiro AZ na lista
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}-Private-SNet
+      - Key: Environment
+        Value: development
