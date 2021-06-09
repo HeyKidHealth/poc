@@ -10,9 +10,9 @@ import (
 
 func main() {
 	log.Info("Iniciou")
-	
+
 	//hi, err := helloWorld("bolt://localhost:7687", "neo4j", "minhasenha")
-	hi, err := helloWorld("bolt://3.231.155.62:7687", "neo4j", "quantity-schools-consoles")
+	hi, err := helloWorld("bolt://54.210.164.25:7687", "neo4j", "searchlight-guest-back")
 	if err != nil {
 		log.Info(err)
 		panic("Doesn't work")
@@ -24,7 +24,7 @@ func helloWorld(uri string, username string, password string) (string, error) {
 	var err error
 	var dbServerDriver neo4j.Driver
 	works := false
-	dbServer := db.NewDbNeo4j()
+	dbServer := db.NewNeo4jDriver()
 
 	if works {
 		dbServerDriver, err = neo4j.NewDriver(uri, neo4j.BasicAuth(username, password, ""))
@@ -40,8 +40,8 @@ func helloWorld(uri string, username string, password string) (string, error) {
 			fmt.Println(err.Error())
 			return "", err
 		}
-		dbServerDriver = dbServer.DB
-		
+		dbServerDriver = dbServer.Driver
+
 		fmt.Println("Abriu conexão Neo4J via 'doesn't work'")
 	}
 	defer dbServerDriver.Close()
@@ -67,7 +67,7 @@ func helloWorld(uri string, username string, password string) (string, error) {
 			}
 
 			return nil, result.Err()
-	})
+		})
 	if err != nil {
 		fmt.Println("Erro no transaction")
 		return "", err

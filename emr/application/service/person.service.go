@@ -10,7 +10,7 @@ import (
 )
 
 type PersonService struct {
-	Person repository.PersonServiceInterface
+	Person repository.PersonInterface
 }
 
 func NewPersonService() PersonService {
@@ -47,14 +47,14 @@ func (p *PersonService) GetMember(id string) (*entity.Person, error) {
 }
 
 func (p *PersonService) isValidRelation(relation string) error {
-	if relation != repository.FAMILY_RELATION_FATHER &&
-		relation != repository.FAMILY_RELATION_MOTHER &&
-		relation != repository.FAMILY_RELATION_BROTHER &&
-		relation != repository.FAMILY_RELATION_SISTER &&
-		relation != repository.FAMILY_RELATION_DAUGHTER &&
-		relation != repository.FAMILY_RELATION_SON &&
-		relation != repository.FAMILY_RELATION_HUSBAND &&
-		relation != repository.FAMILY_RELATION_WIFE {
+	if relation != repository.FamilyRelationFather &&
+		relation != repository.FamilyRelationMother &&
+		relation != repository.FamilyRelationBrother &&
+		relation != repository.FamilyRelationSister &&
+		relation != repository.FamilyRelationDaughter &&
+		relation != repository.FamilyRelationSon &&
+		relation != repository.FamilyRelationHusband &&
+		relation != repository.FamilyRelationWife {
 		return errors.New(repository.ERROR_FAMILY_RELATIONSHIP_MISSING)
 	}
 	return nil
