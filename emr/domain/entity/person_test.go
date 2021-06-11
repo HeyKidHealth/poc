@@ -13,7 +13,7 @@ func TestPerson_IsValid(t *testing.T) {
 	person.Name = "Renato"
 	person.LastName = "Spakauskas"
 	person.Email = "re@renato"
-	person.Responsible = entity.SELF
+	person.Responsible = entity.Self
 	//person.DOB = time.Now().AddDate(-5, 3, -12)
 	person.DOB = time.Date(1970, 11, 14, 0, 0, 0, 0, time.UTC)
 
@@ -47,7 +47,7 @@ func TestPerson_IsValid(t *testing.T) {
 	require.EqualError(t, err, entity.ERROR_LAST_NAME_TOO_LONG)
 
 	person.LastName = "Spakauskas"
-	person.Responsible = entity.SELF
+	person.Responsible = entity.Self
 	person.Email = ""
 	err = person.IsValid()
 	require.EqualError(t, err, entity.ERROR_EMAIL_MISSING)
@@ -63,7 +63,6 @@ func TestPerson_IsValid(t *testing.T) {
 	person.Email = "em@a"
 	err = person.IsValid()
 	require.EqualError(t, err, entity.ERROR_EMAIL_INVALID)
-
 
 	person.Responsible = ""
 	person.Email = ""
@@ -81,8 +80,7 @@ func TestPerson_IsValid(t *testing.T) {
 	person.Email = "em@a"
 	err = person.IsValid()
 	require.Nil(t, err)
-	
-	
+
 	person.Email = "renato@renato"
 	person.DOB = time.Time{}
 	err = person.IsValid()
@@ -92,11 +90,11 @@ func TestPerson_IsValid(t *testing.T) {
 	err = person.IsValid()
 	require.EqualError(t, err, entity.ERROR_DOB_INVALID)
 
-	person.DOB = time.Now().AddDate(0, 0, 1)		//amanhã
+	person.DOB = time.Now().AddDate(0, 0, 1) //amanhã
 	err = person.IsValid()
 	require.EqualError(t, err, entity.ERROR_DOB_INVALID)
 
-	person.DOB = time.Now().AddDate(-5, 3, -12)	//5 anos antes
+	person.DOB = time.Now().AddDate(-5, 3, -12) //5 anos antes
 	err = person.IsValid()
 	require.Nil(t, err)
 }
