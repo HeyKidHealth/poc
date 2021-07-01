@@ -26,14 +26,14 @@ const (
 	ERROR_EMAIL_INVALID        string = "e-Mail has an invalid format"
 	ERROR_DOB_MISSING          string = "day of birth is missing"
 	ERROR_DOB_INVALID          string = "day of birth is invalid"
+	ERROR_ID_PERSON_MISSING    string = "person id is missing"
+	ERROR_ID_PERSON_EXISTS     string = "person id provided is taken"
 )
 
 const (
 	ERROR_PERSON_INVALID_ID string = "this id does not represent a valid person"
 	ERROR_PERSON_BASE_EMPTY string = "the base is empty"
 )
-
-
 
 //#########################
 //FAMILY
