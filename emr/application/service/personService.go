@@ -10,6 +10,7 @@ import (
 type PersonService interface {
 	GetPerson(id string) (*entity.Person, error)
 	AddPerson(person *entity.Person) (*entity.Person, error)
+	UpdatePerson(id string, person *entity.Person) (*entity.Person, error)
 }
 
 type person struct{}
@@ -43,3 +44,14 @@ func (*person) AddPerson(person *entity.Person) (*entity.Person, error) {
 	}
 	return thisGuy, nil
 }
+
+//add a new person who later can be a patient, a responsible for someone, a medic
+func (*person) UpdatePerson(id string, person *entity.Person) (*entity.Person, error) {
+	thisGuy, err := personRepo.Update(id, person)
+	if err != nil {
+		log.Printf("personService.Update: %v", err.Error())
+		return &entity.Person{}, err
+	}
+	return thisGuy, nil
+}
+

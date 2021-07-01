@@ -14,10 +14,7 @@ import (
 type PersonController interface {
 	GetPerson(resp http.ResponseWriter, req *http.Request)
 	AddPerson(resp http.ResponseWriter, req *http.Request)
-}
-
-type personId struct {
-	ID string `json: "person_id"`
+	UpdatePerson(resp http.ResponseWriter, req *http.Request)
 }
 
 type controller struct{}
@@ -38,12 +35,12 @@ func (*controller) GetPerson(resp http.ResponseWriter, req *http.Request) {
 
 	id := httpRouter.GetParam(req, "id")
 	if id == utils.ERROR_MISSING_PARAMETER {
-		log.Println("personController.GetPerson: person id is missing")
+		log.Println("personController.GetPerson: the id is missing")
 		resp.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(resp).Encode(utils.ServiceError{Message: "person id is missing"})
+		json.NewEncoder(resp).Encode(utils.ServiceError{Message: "the id is missing"})
 		return
 	}
-
+	
 	person, err := personService.GetPerson(id)
 	if err != nil {
 		log.Printf("personController.GetPerson: %v", err.Error())
@@ -51,17 +48,17 @@ func (*controller) GetPerson(resp http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(resp).Encode(utils.ServiceError{Message: err.Error()})
 		return
 	}
-
+	
 	resp.WriteHeader(http.StatusOK)
 	json.NewEncoder(resp).Encode(person)
 }
 
 //Add a person. For now, just expecting JSON parse partial object based on struct Person
 func (*controller) AddPerson(resp http.ResponseWriter, req *http.Request) {
-	var person entity.Person
-
+	var thisGuy entity.Person
+	
 	resp.Header().Set("Content-Type", "application/json")
-	err := json.NewDecoder(req.Body).Decode(&person)
+	err := json.NewDecoder(req.Body).Decode(&thisGuy)
 	if err != nil {
 		log.Printf("personController.AddPerson: %v", err.Error())
 		resp.WriteHeader(http.StatusInternalServerError)
@@ -69,7 +66,8 @@ func (*controller) AddPerson(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	newPerson, err := personService.AddPerson(&person)
+	//effectively add the person
+	newPerson, err := personService.AddPerson(&thisGuy)
 	if err != nil {
 		resp.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(resp).Encode(utils.ServiceError{Message: err.Error()})
@@ -78,4 +76,53 @@ func (*controller) AddPerson(resp http.ResponseWriter, req *http.Request) {
 
 	resp.WriteHeader(http.StatusOK)
 	json.NewEncoder(resp).Encode(newPerson)
+}
+
+
+//Update the person. 
+func (*controller) UpdatePerson(resp http.ResponseWriter, req *http.Request) {
+	var thisGuy entity.Person
+	
+	resp.Header().Set("Content-Type", "application/json")
+	
+	id := httpRouter.GetParam(req, "id")
+	if id == utils.ERROR_MISSING_PARAMETER {
+		log.Println("personController.UpdatePerson: the id is missing")
+		resp.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(resp).Encode(utils.ServiceError{Message: "the id is missing"})
+		return
+	}
+
+	err := json.NewDecoder(req.Body).Decode(&thisGuy)
+	if err != nil {
+		log.Printf("personController.UpdatePerson: %v", err.Error())
+		resp.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(resp).Encode(utils.ServiceError{Message: err.Error()})
+		return
+	}
+
+	//effectively update the person
+	newPerson, err := personService.UpdatePerson(id, &thisGuy)
+	if err != nil {
+		resp.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(resp).Encode(utils.ServiceError{Message: err.Error()})
+		return
+	}
+
+	resp.WriteHeader(http.StatusOK)
+	json.NewEncoder(resp).Encode(newPerson)
+}
+
+func finishCall(resp http.ResponseWriter, obj interface{}) {
+	finish(resp, http.StatusOK, obj)
+}
+
+func finishCallError(resp http.ResponseWriter, err error) {
+	finish(resp, http.StatusInternalServerError, utils.ServiceError{Message: err.Error()})
+}
+
+func finish(resp http.ResponseWriter, codeMessage int, obj interface{}) {
+	resp.WriteHeader(codeMessage)
+	json.NewEncoder(resp).Encode(obj)
+	return
 }
