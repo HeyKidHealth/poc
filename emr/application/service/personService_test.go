@@ -4,10 +4,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/heykidhealth/poc-emr/application/repository"
-	"github.com/heykidhealth/poc-emr/application/service"
-	"github.com/heykidhealth/poc-emr/domain/entity"
 	"github.com/stretchr/testify/require"
+
+	"github.com/heykidhealth/emr/application/service"
+	entity "github.com/heykidhealth/emr/core/entity/person"
+	repository "github.com/heykidhealth/emr/core/repository/person"
 )
 
 func Test_PersonRepositoryGetMember(t *testing.T) {

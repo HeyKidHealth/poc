@@ -4,25 +4,34 @@ import (
 	"testing"
 	"time"
 
-	"github.com/heykidhealth/poc-emr/domain/entity"
+	entity "github.com/heykidhealth/emr/core/entity/person"
 	"github.com/stretchr/testify/require"
 )
 
 func TestPerson_IsValid(t *testing.T) {
-	person := entity.Person{}
+	person := entity.NewPerson()
 	person.Name = "Renato"
+	person.MiddleName = "Costa"
 	person.LastName = "Spakauskas"
-	person.Email = "re@renato"
-	person.Responsible = entity.Self
-	//person.DOB = time.Now().AddDate(-5, 3, -12)
 	person.DOB = time.Date(1970, 11, 14, 0, 0, 0, 0, time.UTC)
+	person.Email = "renato@email.com"
+	person.Responsible = entity.Self
 
 	//all working
 	err := person.IsValid()
 	require.Nil(t, err)
+}
 
+func TestPerson_NameInvalid(t *testing.T) {
+	person := entity.NewPerson()
 	person.Name = ""
-	err = person.IsValid()
+	person.MiddleName = "Costa"
+	person.LastName = "Spakauskas"
+	person.DOB = time.Date(1970, 11, 14, 0, 0, 0, 0, time.UTC)
+	person.Email = "renato@email.com"
+	person.Responsible = entity.Self
+
+	err := person.IsValid()
 	require.EqualError(t, err, entity.ERROR_NAME_MISSING)
 
 	person.Name = "Re"
@@ -45,11 +54,18 @@ func TestPerson_IsValid(t *testing.T) {
 	person.LastName = "SpakauskasSpakauskasSpakauskasSpakauskasSpakauskasSpakauskas"
 	err = person.IsValid()
 	require.EqualError(t, err, entity.ERROR_LAST_NAME_TOO_LONG)
+}
 
+func TestPerson_EmailInvalid(t *testing.T) {
+	person := entity.NewPerson()
+	person.Name = "Renato"
+	person.MiddleName = "Costa"
 	person.LastName = "Spakauskas"
-	person.Responsible = entity.Self
+	person.DOB = time.Date(1970, 11, 14, 0, 0, 0, 0, time.UTC)
 	person.Email = ""
-	err = person.IsValid()
+	person.Responsible = entity.Self
+
+	err := person.IsValid()
 	require.EqualError(t, err, entity.ERROR_EMAIL_MISSING)
 
 	person.Email = "email"
@@ -64,7 +80,7 @@ func TestPerson_IsValid(t *testing.T) {
 	err = person.IsValid()
 	require.EqualError(t, err, entity.ERROR_EMAIL_INVALID)
 
-	person.Responsible = ""
+	person.Responsible = "" //don not need to provide an email
 	person.Email = ""
 	err = person.IsValid()
 	require.Nil(t, err)
@@ -80,21 +96,29 @@ func TestPerson_IsValid(t *testing.T) {
 	person.Email = "em@a"
 	err = person.IsValid()
 	require.Nil(t, err)
+}
 
-	person.Email = "renato@renato"
+func TestPerson_DOBInvalid(t *testing.T) {
+	person := entity.NewPerson()
+	person.Name = "Renato"
+	person.MiddleName = "Costa"
+	person.LastName = "Spakauskas"
 	person.DOB = time.Time{}
-	err = person.IsValid()
+	person.Email = "renato@email.com"
+	person.Responsible = entity.Self
+
+	err := person.IsValid()
 	require.EqualError(t, err, entity.ERROR_DOB_MISSING)
 
 	person.DOB = time.Now()
 	err = person.IsValid()
 	require.EqualError(t, err, entity.ERROR_DOB_INVALID)
 
-	person.DOB = time.Now().AddDate(0, 0, 1) //amanhã
+	person.DOB = time.Now().AddDate(0, 0, 1) //tomorrow
 	err = person.IsValid()
 	require.EqualError(t, err, entity.ERROR_DOB_INVALID)
 
-	person.DOB = time.Now().AddDate(-5, 3, -12) //5 anos antes
+	person.DOB = time.Now().AddDate(-5, 3, -12) //5 years before
 	err = person.IsValid()
 	require.Nil(t, err)
 }

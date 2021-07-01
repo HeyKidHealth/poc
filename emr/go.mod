@@ -1,4 +1,4 @@
-module github.com/heykidhealth/poc-emr
+module github.com/heykidhealth/emr
 
 go 1.16
 

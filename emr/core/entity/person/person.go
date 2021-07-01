@@ -5,36 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/heykidhealth/poc-emr/framework/utils"
-	uuid "github.com/satori/go.uuid"
-)
-
-const (
-	GenderMale   string = "Male"
-	GenderFemale string = "Female"
-	GenderOther  string = "Other"
-)
-
-const (
-	Self    string = "self"
-	Someone string = "someone"
-)
-
-const (
-	ERROR_NAME_MISSING        string = "name is missing"
-	ERROR_LAST_NAME_TOO_SHORT string = "last name is too short"
-	ERROR_LAST_NAME_TOO_LONG  string = "last name is too long"
-	ERROR_LAST_NAME_MISSING   string = "last name is missing"
-	ERROR_NAME_TOO_SHORT      string = "name is too short"
-	ERROR_NAME_TOO_LONG       string = "name is too long"
-	ERROR_EMAIL_MISSING       string = "e-Mail is missing"
-	ERROR_EMAIL_INVALID       string = "e-Mail has an invalid format"
-	ERROR_DOB_MISSING         string = "day of birth is missing"
-	ERROR_DOB_INVALID         string = "day of birth is invalid"
-)
-
-const (
-	ERROR_PERSON_INVALID_ID string = "this id does not represents a valid person"
+	"github.com/heykidhealth/emr/infrastructure/utils"
 )
 
 type Person struct {
@@ -50,65 +21,58 @@ type Person struct {
 	Responsible string    `json:"responsible_id"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
-	EMR
 }
 
-type EMR struct {
-	ID        string    `json:"emr_id"`
-	CreatedAt time.Time `json:"emr_created_at"`
-}
+type person struct{}
 
-type PersonInterface interface {
-	GetPerson(id string) (*Person, error)
-	AddPerson(person *Person) (*Person, error)
-	UpdatePerson(person *Person) (*Person, error)
-	RemovePerson(id string) (*Person, error)
-}
-
-func NewPerson() *Person {
-	return &Person{
-		ID:          uuid.NewV4().String(),
-		Responsible: Someone,
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
-		EMR: EMR{
-			ID:        uuid.NewV4().String(),
-			CreatedAt: time.Now(),
-		},
-	}
+func NewPerson() Person {
+	return Person{}
 }
 
 //check wheather person is filled with required information - name, lastname, email and day of birth
 func (p *Person) IsValid() error {
+	//if govalidator.IsNull(p.Name) {
 	if strings.TrimSpace(p.Name) == "" {
 		return errors.New(ERROR_NAME_MISSING)
 	}
 
+	//if !govalidator.MinStringLength(p.Name, "3") {
 	if len(strings.TrimSpace(p.Name)) < 3 {
 		return errors.New(ERROR_NAME_TOO_SHORT)
 	}
 
+	//if !govalidator.MaxStringLength(p.Name, "20") {
 	if len(strings.TrimSpace(p.Name)) > 20 {
 		return errors.New(ERROR_NAME_TOO_LONG)
 	}
 
+	//if !govalidator.IsNull(p.LastName) {
 	if strings.TrimSpace(p.LastName) == "" {
 		return errors.New(ERROR_LAST_NAME_MISSING)
 	}
 
+	//if govalidator.MinStringLength(p.LastName, "3") {
 	if len(strings.TrimSpace(p.LastName)) < 3 {
 		return errors.New(ERROR_LAST_NAME_TOO_SHORT)
 	}
 
+	//if !govalidator.MaxStringLength(p.LastName, "20") {
 	if len(strings.TrimSpace(p.LastName)) > 20 {
 		return errors.New(ERROR_LAST_NAME_TOO_LONG)
 	}
 
+	//if !govalidator.StringLength(p.MiddleName, "0", "20") {
+	if len(strings.TrimSpace(p.MiddleName)) > 20 {
+		return errors.New(ERROR_MIDDLE_NAME_TOO_LONG)
+	}
+
 	if p.Responsible == Self {
+		//if govalidator.IsNull(p.Email) {
 		if strings.TrimSpace(p.Email) == "" {
 			return errors.New(ERROR_EMAIL_MISSING)
 		}
 
+		//if !govalidator.IsEmail(p.Email) {
 		if !utils.IsEmailValid(p.Email) {
 			return errors.New(ERROR_EMAIL_INVALID)
 		}
