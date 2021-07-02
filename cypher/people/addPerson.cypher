@@ -6,8 +6,10 @@ CREATE CONSTRAINT personFullName IF NOT EXISTS ON (one:Person) ASSERT (one.fullN
 
 //CREATE A NEW PERSON
 MERGE (one:Person {name: 'Renato', middleName: 'Costa', lastName: 'Spakauskas'})
-ON CREATE SET one.uuid = apoc.create.uuid() + '-USER',
+ON CREATE SET one.uuid = apoc.create.uuid(),
   one.fullName = one.name + COALESCE(one.middleName, '') + COALESCE(one.lastName, '')
+ON MATCH SET one.gender = 'Male', 
+  one.email = 'renato@email.com'
 WITH one
 //IDENTIFY THE DAY OF BIRTH
 MATCH (dob:Day {uuid: '14/11/1970'})
@@ -16,11 +18,11 @@ SET one.ageInMonths = duration.between(date(dob.date), date()).months,
   one.ageInYears = duration.between(date(dob.date), date()).years
 WITH *//CREATE EMR CARD FOR THIS PERSON AND RELATE IT TO THE PERSON UUID
 MERGE (emr:EMR {personUuid: one.uuid})
-ON CREATE SET emr.uuid = apoc.create.uuid() + '-EMR'
+ON CREATE SET emr.uuid = apoc.create.uuid()
 WITH one, emr
 //CREATE VACCINATION CARD FOR THIS PERSON AND RELATE IT TO THE PERSON UUID
 MERGE (vaccine:VaccineCard {personUuid: one.uuid})
-ON CREATE SET vaccine.uuid = apoc.create.uuid() + '-VC'
+ON CREATE SET vaccine.uuid = apoc.create.uuid()
 WITH *
 //IDENTIFY THE CREATION DATE
 MATCH (day:Day {uuid: apoc.temporal.format(date(), 'dd/MM/YYYY')})
