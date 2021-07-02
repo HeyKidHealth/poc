@@ -33,8 +33,8 @@ func NewPersonController(service service.PersonService) PersonController {
 func (*controller) GetPerson(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-Type", "application/json")
 
-	id := httpRouter.GetParam(req, "id")
-	if id == utils.ERROR_MISSING_PARAMETER {
+	id, err := httpRouter.GetParam(req, "id")
+	if err != nil {
 		log.Println("personController.GetPerson: the id is missing")
 		resp.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(resp).Encode(utils.ServiceError{Message: "the id is missing"})
@@ -55,9 +55,9 @@ func (*controller) GetPerson(resp http.ResponseWriter, req *http.Request) {
 
 //Add a person. For now, just expecting JSON parse partial object based on struct Person
 func (*controller) AddPerson(resp http.ResponseWriter, req *http.Request) {
-	var thisGuy entity.Person
-	
 	resp.Header().Set("Content-Type", "application/json")
+	
+	var thisGuy entity.Person
 	err := json.NewDecoder(req.Body).Decode(&thisGuy)
 	if err != nil {
 		log.Printf("personController.AddPerson: %v", err.Error())
@@ -81,19 +81,18 @@ func (*controller) AddPerson(resp http.ResponseWriter, req *http.Request) {
 
 //Update the person. 
 func (*controller) UpdatePerson(resp http.ResponseWriter, req *http.Request) {
-	var thisGuy entity.Person
-	
 	resp.Header().Set("Content-Type", "application/json")
 	
-	id := httpRouter.GetParam(req, "id")
-	if id == utils.ERROR_MISSING_PARAMETER {
+	id, err := httpRouter.GetParam(req, "id")
+	if err != nil {
 		log.Println("personController.UpdatePerson: the id is missing")
 		resp.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(resp).Encode(utils.ServiceError{Message: "the id is missing"})
 		return
 	}
-
-	err := json.NewDecoder(req.Body).Decode(&thisGuy)
+	
+	var thisGuy entity.Person
+	err = json.NewDecoder(req.Body).Decode(&thisGuy)
 	if err != nil {
 		log.Printf("personController.UpdatePerson: %v", err.Error())
 		resp.WriteHeader(http.StatusInternalServerError)

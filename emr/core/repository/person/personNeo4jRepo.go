@@ -13,11 +13,6 @@ import (
 	"github.com/heykidhealth/emr/infrastructure/utils"
 )
 
-const (
-	create string = "create"
-	update string = "update"
-)
-
 type personNeo4j struct{}
 
 var (
@@ -178,7 +173,7 @@ func (*personNeo4j) Update(id string, person *entity.Person) (*entity.Person, er
 		return &entity.Person{}, err
 	}
 
-	log.Printf("person.Update: id <%v> created for person %v %v", person.ID, person.Name, person.LastName)
+	log.Printf("person.Update: id <%v> updated", person.ID)
 	personNeo4jDb.Session.Close()
 
 	return &thisGuy, nil
